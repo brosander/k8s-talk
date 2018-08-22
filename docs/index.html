@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Bryan Rosander">
+  <title>Containers And Kubernetes</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+  <h1 class="title">Containers And Kubernetes</h1>
+  <p class="author">Bryan Rosander</p>
+</section>
+
+<section id="applications-b.c.-before-containers" class="slide level3">
+<h3>Applications B.C. (Before Containers)</h3>
+<ul>
+<li>Building
+<ol type="1">
+<li>Download libraries</li>
+<li>Configure environment</li>
+<li>Build application</li>
+</ol></li>
+<li>Running
+<ol type="1">
+<li>Unzip/install</li>
+<li>Configure application</li>
+<li>Run application</li>
+</ol></li>
+</ul>
+</section>
+<section id="problem" class="slide level3">
+<h3>Problem?</h3>
+<ul>
+<li>(Lack of) Portability</li>
+<li>(Lack of) Isolation</li>
+<li>Manual Configuration</li>
+</ul>
+</section>
+<section id="solutions" class="slide level3">
+<h3>Solutions</h3>
+<ul>
+<li>Virtual machines</li>
+<li>Chroots/jails</li>
+<li>Sdk managers</li>
+</ul>
+</section>
+<section id="enter-containers-docker" class="slide level3">
+<h3>Enter Containers (Docker)</h3>
+<p><a href="https://stackoverflow.com/a/33132462/586148">But didn't we already have VMs?</a></p>
+<ul>
+<li>Images as code :)
+<ul>
+<li><a href="https://github.com/RocketChat/Docker.Official.Image/blob/294dc246d5a38b4143dbeb3435fbce501583bae7/Dockerfile">RocketChat</a></li>
+</ul></li>
+<li>Isolation</li>
+<li>Central repositories</li>
+<li>Lightweight</li>
+<li>Easy to spin up</li>
+</ul>
+<pre><code>docker run --name db -d mongo:3.0 --smallfiles
+docker run --name rocketchat -p 127.0.0.1:3000:3000 --env ROOT_URL=http://localhost --link db -d rocket.chat</code></pre>
+</section>
+<section id="container-best-practices" class="slide level3">
+<h3>Container Best Practices</h3>
+<ul>
+<li>Small image</li>
+<li>Single process</li>
+<li>Compose via networking</li>
+</ul>
+</section>
+<section id="docker-compose" class="slide level3">
+<h3>Docker Compose</h3>
+<p>Lets us specify declaratively which containers to run, how to link them together.</p>
+<ul>
+<li>Simple - good for local testing</li>
+<li>Not a great production deployment story</li>
+</ul>
+<p><a href="rocket-chat-compose/docker-compose.yaml">See compose yaml</a></p>
+</section>
+<section id="kubernetes" class="slide level3">
+<h3>Kubernetes</h3>
+<p>Kubernetes is a cluster orchestration tool that aims to be a cloud-agnostic way to deploy applications in a scalable and fault tolerant way.</p>
+<p>All configuration is in yaml files, can be versioned :)</p>
+<p>Kubernetes handles configuration at the pod level and up.</p>
+</section>
+<section id="pod" class="slide level3">
+<h3>Pod</h3>
+<p>Group of containers that work together to provide a single external service</p>
+</section>
+<section id="configuration" class="slide level3">
+<h3>Configuration</h3>
+<ul>
+<li>Configmap</li>
+<li>Secret</li>
+<li>PersistentVolume</li>
+</ul>
+</section>
+<section id="orchestration" class="slide level3">
+<h3>Orchestration</h3>
+<ul>
+<li>Deployment</li>
+<li>StatefulSet</li>
+<li>Daemonset</li>
+</ul>
+</section>
+<section id="disoveryingress" class="slide level3">
+<h3>Disovery/Ingress:</h3>
+<ul>
+<li>Service</li>
+<li>Ingress</li>
+</ul>
+</section>
+<section id="isolationsecurity" class="slide level3">
+<h3>Isolation/Security:</h3>
+<ul>
+<li>Namespace</li>
+<li>Network policy</li>
+<li>Authentication</li>
+<li>Authorization</li>
+</ul>
+</section>
+<section id="package-management" class="slide level3">
+<h3>Package Management</h3>
+<p>Helm is Kubernetes' version of apt get.</p>
+<p><a href="https://github.com/helm/charts/tree/master/stable/rocketchat">RocketChat Chart</a></p>
+<pre><code>helm install --name rocketchat stable/rocketchat --set image=rocket.chat:0.68.4</code></pre>
+</section>
+<section id="kops" class="slide level3">
+<h3>Kops</h3>
+<p>Ok, so what if we could version our Kubernetes cluster as code? :)</p>
+</section>
+    </div>
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+              { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

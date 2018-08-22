@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:3.0
+    command: docker-entrypoint.sh --smallfiles
+  rocketchat:
+    image: rocket.chat
+    environment:
+      ROOT_URL: http://localhost
+    links:
+    - db
+    ports:
+    - 127.0.0.1:3001:3000

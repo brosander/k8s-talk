@@ -110,3 +110,11 @@ helm install --name rocketchat stable/rocketchat --set image=rocket.chat:0.68.4
 ### Chick Fil A
 
 [k8s everywhere](https://medium.com/@cfatechblog/edge-computing-at-chick-fil-a-7d67242675e2)
+
+### End
+
+* [Slides](https://brosander.github.io/k8s-talk/#/)
+* [Slides source](https://github.com/brosander/k8s-talk)
+* [\@bryan_rosander](https://twitter.com/bryan_rosander)
+* [Blog](https://blog.rosander.ninja/)
+

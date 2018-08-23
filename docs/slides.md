@@ -105,4 +105,8 @@ helm install --name rocketchat stable/rocketchat --set image=rocket.chat:0.68.4
 
 ### Kops
 
-Ok, so what if we could version our Kubernetes cluster as code? :)
+[Ok, so what if we could version our Kubernetes cluster as code? :)](https://github.com/kubernetes/kops)
+
+### Chick Fil A
+
+[k8s everywhere](https://medium.com/@cfatechblog/edge-computing-at-chick-fil-a-7d67242675e2)

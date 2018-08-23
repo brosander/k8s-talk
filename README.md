@@ -1,12 +1,7 @@
 Build image in subfolder:
-```
-cd slides/docker
-docker build -t pandoc .
-cd ../..
-```
 
 ```
-docker run -ti --rm -v "$(pwd)/slides/input:/input" -v "$(pwd)/docs:/output" pandoc
+docker run -ti --rm -v "$(pwd)/slides/input:/input" -v "$(pwd)/docs:/output" bryanrosander/k8s-talk
 ```
 
 Edit files in input, watch output appear in output :)

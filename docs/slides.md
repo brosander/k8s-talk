@@ -113,7 +113,7 @@ helm install --name rocketchat stable/rocketchat --set image=rocket.chat:0.68.4
 
 ### End
 
-* [Slides](https://brosander.github.io/k8s-talk/#/)
+* [Slides (https://goo.gl/NWK1y8)](https://brosander.github.io/k8s-talk/#/)
 * [Slides source](https://github.com/brosander/k8s-talk)
 * [\@bryan_rosander](https://twitter.com/bryan_rosander)
 * [Blog](https://blog.rosander.ninja/)

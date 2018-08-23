@@ -75,7 +75,7 @@ Group of containers that work together to provide a single external service
 * Secret
 * PersistentVolume
 
-###Orchestration
+### Orchestration
 
 * Deployment
 * StatefulSet

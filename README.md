@@ -1,4 +1,4 @@
-Build image in subfolder:
+Start up input watcher container:
 
 ```
 docker run -ti --rm -v "$(pwd)/slides/input:/input" -v "$(pwd)/docs:/output" bryanrosander/k8s-talk

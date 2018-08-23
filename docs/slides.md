@@ -33,7 +33,7 @@ author: Bryan Rosander
 * Images as code :)
     * [RocketChat](https://github.com/RocketChat/Docker.Official.Image/blob/294dc246d5a38b4143dbeb3435fbce501583bae7/Dockerfile)
 * Isolation
-* Central repositories
+* [Central repositories](https://hub.docker.com/r/bryanrosander/k8s-talk/)
 * Lightweight
 * Easy to spin up
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Bryan Rosander">
-  <title>Containers And Kubernetes</title>
+  <title>Containers and Kubernetes</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,10 +28,42 @@
     <div class="slides">
 
 <section>
-  <h1 class="title">Containers And Kubernetes</h1>
+  <h1 class="title">Containers and Kubernetes</h1>
   <p class="author">Bryan Rosander</p>
 </section>
 
+<section id="what-is-a-docker-and-why" class="slide level3">
+<h3>What is a docker and why?</h3>
+<ul>
+<li>Most popular containerization technology</li>
+<li>Puts all the code in portable packages</li>
+<li>Runs the code (more) safely</li>
+<li>Minimal overhead</li>
+</ul>
+</section>
+<section id="and-kubernetes-matters-because..." class="slide level3">
+<h3>And Kubernetes matters because...</h3>
+<ul>
+<li>Orchestration - runs the containers</li>
+<li>High availability - replication, multiple entry points</li>
+<li>Autoscaling - react to changing workloads</li>
+<li>Cloud agnostic - write once, deploy everywhere</li>
+</ul>
+</section>
+<section id="everywhere" class="slide level3">
+<h3>EVERYWHERE</h3>
+<ul>
+<li><a href="https://github.com/kubernetes/kops">Kops - AWS, GCE, Digital Ocean, Terraform</a></li>
+<li><a href="https://cloud.google.com/kubernetes-engine/">Google Kubernetes Engine</a></li>
+<li><a href="https://azure.microsoft.com/en-us/services/kubernetes-service/">Azure Kubernetes Service</a></li>
+<li><a href="https://aws.amazon.com/eks/">Amazon Elastic Container Service</a></li>
+<li><a href="https://kubernetes.io/docs/getting-started-guides/fedora/">Bare Metal</a></li>
+<li><a href="https://kubernetes.io/docs/setup/pick-right-solution/#hosted-solutions">And there's more!</a></li>
+</ul>
+</section>
+<section id="how-did-we-get-here" class="slide level3">
+<h3>How did we get here?</h3>
+</section>
 <section id="applications-b.c.-before-containers" class="slide level3">
 <h3>Applications B.C. (Before Containers)</h3>
 <ul>
@@ -64,10 +96,17 @@
 <li>Chroots/jails</li>
 <li>Sdk managers</li>
 </ul>
+<figure>
+<img src="./cut_corners_925049.jpg" height="256" />
+</figure>
+<p><a href="https://www.toonpool.com/cartoons/cut%20corners_92504">(courtesy toonpool)</a></p>
 </section>
 <section id="enter-containers-docker" class="slide level3">
 <h3>Enter Containers (Docker)</h3>
-<p><a href="https://stackoverflow.com/a/33132462/586148">But didn't we already have VMs?</a></p>
+<p><img src="./dockerVsVms.png" /> <a href="https://stackoverflow.com/a/33132462/586148">(courtesy stack overflow)</a></p>
+</section>
+<section id="docker" class="slide level3">
+<h3>Docker!!!</h3>
 <ul>
 <li>Images as code :)
 <ul>
@@ -84,9 +123,10 @@ docker run --name rocketchat -p 127.0.0.1:3000:3000 --env ROOT_URL=http://localh
 <section id="container-best-practices" class="slide level3">
 <h3>Container Best Practices</h3>
 <ul>
-<li>Small image</li>
-<li>Single process</li>
-<li>Compose via networking</li>
+<li>Small image - <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multistage builds</a></li>
+<li>Single process - no you don't need ssh</li>
+<li>Compose via network links</li>
+<li>Config overrides via env variables (or mounted volumes)</li>
 </ul>
 </section>
 <section id="docker-compose" class="slide level3">
@@ -107,28 +147,30 @@ docker run --name rocketchat -p 127.0.0.1:3000:3000 --env ROOT_URL=http://localh
 <section id="pod" class="slide level3">
 <h3>Pod</h3>
 <p>Group of containers that work together to provide a single external service</p>
+<p><img src="./1024px-Sperm_whale_pod.jpg" /> <a href="https://commons.wikimedia.org/wiki/File:Sperm_whale_pod.jpg">(courtesy wikimedia)</a></p>
 </section>
 <section id="configuration" class="slide level3">
 <h3>Configuration</h3>
 <ul>
-<li>Configmap</li>
-<li>Secret</li>
-<li>PersistentVolume</li>
+<li>Configmap - inject config files, env variables</li>
+<li>Secret - sensitive files and variables</li>
+<li>PersistentVolume - mount disks to container</li>
 </ul>
 </section>
 <section id="orchestration" class="slide level3">
 <h3>Orchestration</h3>
 <ul>
-<li>Deployment</li>
-<li>StatefulSet</li>
-<li>Daemonset</li>
+<li>Deployment - run X pods</li>
+<li>StatefulSet - run X pods with stable hostname, volumes</li>
+<li>Daemonset - run pod on each node (subject to taints)</li>
+<li>(Cron)Job- run pod until it has finished its work</li>
 </ul>
 </section>
 <section id="disoveryingress" class="slide level3">
 <h3>Disovery/Ingress:</h3>
 <ul>
-<li>Service</li>
-<li>Ingress</li>
+<li>Service - DNS resolution/external access</li>
+<li>Ingress - nginx, haproxy, or native</li>
 </ul>
 </section>
 <section id="isolationsecurity" class="slide level3">
@@ -144,15 +186,18 @@ docker run --name rocketchat -p 127.0.0.1:3000:3000 --env ROOT_URL=http://localh
 <h3>Package Management</h3>
 <p>Helm is Kubernetes' version of apt get.</p>
 <p><a href="https://github.com/helm/charts/tree/master/stable/rocketchat">RocketChat Chart</a></p>
-<pre><code>helm install --name rocketchat stable/rocketchat --set image=rocket.chat:0.68.4</code></pre>
+<pre><code>helm install --name rocketchat stable/rocketchat</code></pre>
 </section>
 <section id="kops" class="slide level3">
 <h3>Kops</h3>
 <p><a href="https://github.com/kubernetes/kops">Ok, so what if we could version our Kubernetes cluster as code? :)</a></p>
 </section>
-<section id="chick-fil-a" class="slide level3">
-<h3>Chick Fil A</h3>
-<p><a href="https://medium.com/@cfatechblog/edge-computing-at-chick-fil-a-7d67242675e2">k8s everywhere</a></p>
+<section id="case-studies" class="slide level3">
+<h3>Case Studies</h3>
+<ul>
+<li><a href="https://medium.com/@cfatechblog/edge-computing-at-chick-fil-a-7d67242675e2">ChickFilA</a></li>
+<li><a href="https://kubernetes.io/case-studies/">Lots more!</a></li>
+</ul>
 </section>
 <section id="end" class="slide level3">
 <h3>End</h3>
